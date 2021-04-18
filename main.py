@@ -33,12 +33,15 @@ slate = PlayerSlate(initialSlate=initialSlate,
                     preferedLinks=preferedLinks)
 
 # Print initial stat
+print('\nINDIVIDUAL GAINS')
 slate.log(slate.initialSlate)
 
 
 # Equilibriate scores
 slate.equilibrate()
 # Print list of transactions
+print('\nREQUIRED TRANSACTIONS')
 slate.logTransactions()
 # Print final slate
+print('\nFINAL SLATES')
 slate.log(slate.currentSlate)

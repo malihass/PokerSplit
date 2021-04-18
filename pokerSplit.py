@@ -8,7 +8,7 @@ class Transaction:
         self.dollarAmount = dollarAmount
         self.addedToTab = False
     def log(self):
-        print(self.sender + ' sends %.2f ' % self.dollarAmount + ' to ' + self.receiver)
+        print(self.sender + ' sends %.2f dollars' % self.dollarAmount + ' to ' + self.receiver)
 
 
 class PlayerSlate:
