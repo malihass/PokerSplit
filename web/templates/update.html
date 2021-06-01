@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+
+
+
+
+{% block body %}
+<div class='content'>
+    <h3 style="text-align: center">Update Player</h3>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Chips remaining</th>
+            <th>Money invested</th>
+            <th>Prefered financial partner</th>
+        </tr>
+        <tr>
+            <td>{{ player.name }}</td>
+            <td>{{ player.chips_remaining }}</td>
+            <td>{{ player.money_invested }}</td>
+            <td>{{ player.prefered_financial_partner }}</td>
+        </tr>
+    </table>
+ 
+    <div class="form">
+        <form action="/update/{{ player.id }}" method="POST">
+            <input type="text" name="name", id="name", value="{{player.name}}">
+            <br>
+            <input type="text" name="chips", id="chips", value="{{player.chips_remaining}}">
+            <br>
+            <input type="text" name="money", id="money", value="{{player.money_invested}}">
+            <br>
+            <input type="text" name="partner", id="partner", value="{{player.prefered_financial_partner}}">
+            <br>
+            <input type="submit" value="Update Player">
+        </form>
+    </div>
+    
+</div>
+
+{% endblock %}
