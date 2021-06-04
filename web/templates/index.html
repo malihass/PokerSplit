@@ -21,9 +21,9 @@
             <tr>
                 <th>Name</th>
                 <th>Chips remaining</th>
-                <th>Money invested</th>
+                <th>Money invested (in dollars)</th>
                 <th>Prefered financial partner</th>
-                <th>Actions</th>
+                <th></th>
             </tr>
             {% for player in players %}
                 <tr>
@@ -50,8 +50,14 @@
         <br>
         <input type="text" name="partner", id="partner", value="Prefered financial partner">
         <br>
+        <input type="hidden" name="btn_identifier" value="playerList" />
         <input type="submit" value="Add Player">
     </form>
+    <form action="/" method="POST">
+        <input type="hidden" name="btn_identifier" value="playerTransactions" />
+        <input type="submit" value="Calculate">
+    </form>
+    <label> {{slateOutput | safe}} </label> <br>
     
 </div>
 

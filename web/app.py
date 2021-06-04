@@ -1,6 +1,8 @@
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from pokerSplit import *
+
 
 # Set up app
 app = Flask(__name__)
@@ -22,11 +24,59 @@ class Players(db.Model):
         # what to do when we create a new element
         return '<Player %r>' % self.id
 
+# Init the state
+def initFromDB(players):
+    # Player Names
+    nameList = [] 
+    for player in players:
+        nameList.append(player.name)
+
+    # Make the slate
+    initialSlate = {}
+    for player in players:
+        try:
+            initialSlate[player.name] = float(player.chips_remaining)
+        except:
+            errorSignal = 1
+            errorMessage = 'Check chips remaining for ' + player.name
+            return (errorSignal, errorMessage)           
+
+    if sum([value for _, value in initialSlate.items()])==0:
+        errorSignal = 1
+        errorMessage = 'Slate probably incomplete'
+        return (errorSignal, errorMessage)
+
+    # Money invested
+    moneyInvested = {}
+    for player in players:
+        try:
+            moneyInvested[player.name] = float(player.money_invested)
+        except:
+            errorSignal = 1
+            errorMessage = 'Check money invested for ' + player.name
+            return (errorSignal, errorMessage)           
+
+    # Prefered financial partner
+    preferedLinks = {}
+    for player in players:
+        links = player.prefered_financial_partner.strip().split()
+        for link in links: 
+            if not (link in nameList and not link==''): 
+                errorSignal = 1
+                errorMessage = 'Check prefered financial partner for ' + player.name
+                return (errorSignal, errorMessage)
+        
+        if links==['']:
+            link = []
+        preferedLinks[player.name] = links
+    
+    errorSignal = 0
+    return (errorSignal, initialSlate, moneyInvested, preferedLinks)
 
 # Create index route
 @app.route('/',methods=['POST','GET'])
 def index():
-    if request.method=='POST':
+    if request.method=='POST' and request.form['btn_identifier'] == 'playerList':
         player_name = request.form['name']
         player_chips_remaining = request.form['chips']
         player_money_invested = request.form['money']
@@ -43,6 +93,28 @@ def index():
             return redirect('/')
         except: 
             return 'There was an issue'
+
+    elif request.method=='POST' and request.form['btn_identifier'] == 'playerTransactions':
+        players = Players.query.order_by(Players.name).all()
+        # Make the slate
+        init_conditions = initFromDB(players)
+        if init_conditions[0] == 1:
+            # Failure because of links 
+            msg = init_conditions[1]
+            return render_template("index.html",players=players,slateOutput=msg)
+        elif init_conditions[0] == 0:
+            # Success
+            # Construct the split
+            slate = PlayerSlate(initialSlate=init_conditions[1],
+                                moneyInvested=init_conditions[2],
+                                preferedLinks=init_conditions[3])
+            
+            # Equilibriate scores
+            slate.equilibrate()
+            # Get list of transactions
+            Log = slate.getLogTransactions()
+            return render_template("index.html",players=players,slateOutput=Log)
+            
     else:
         # Order by date created and return everything
         players = Players.query.order_by(Players.name).all()
