@@ -57,6 +57,10 @@
         <input type="hidden" name="btn_identifier" value="playerTransactions" />
         <input type="submit" value="Calculate">
     </form>
+    <form action="/" method="POST">
+        <input type="hidden" name="btn_identifier" value="clearTransactions" />
+        <input type="submit" value="Clear Result">
+    </form>
     <label> {{slateOutput | safe}} </label> <br>
     
 </div>

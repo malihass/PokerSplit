@@ -114,7 +114,11 @@ def index():
             # Get list of transactions
             Log = slate.getLogTransactions()
             return render_template("index.html",players=players,slateOutput=Log)
-            
+    
+    elif request.method=='POST' and request.form['btn_identifier'] == 'clearTransactions':
+        players = Players.query.order_by(Players.name).all()
+        return render_template("index.html",players=players,slateOutput='')      
+   
     else:
         # Order by date created and return everything
         players = Players.query.order_by(Players.name).all()
