@@ -68,7 +68,7 @@ def initFromDB(players):
                 return (errorSignal, errorMessage)
         
         if links==['']:
-            link = []
+            links = []
         preferedLinks[player.name] = links
     
     errorSignal = 0
