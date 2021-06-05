@@ -10,6 +10,10 @@
 <div class='content'>
     <h1 style="text-align: center">Poker Split</h1>
     <h3 style="text-align: center">Player List</h3>
+    <form action="/" method="POST">
+        <input type="hidden" name="btn_identifier" value="clearPlayerList" />
+        <input type="submit" value="Clear Player List">
+    </form>
 
     {% if players|length<1 %}
 
@@ -22,7 +26,7 @@
                 <th>Name</th>
                 <th>Chips remaining</th>
                 <th>Money invested (in dollars)</th>
-                <th>Prefered financial partner</th>
+                <th>Prefered financial partner (separated by ;)</th>
                 <th></th>
             </tr>
             {% for player in players %}

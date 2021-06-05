@@ -59,9 +59,10 @@ def initFromDB(players):
     # Prefered financial partner
     preferedLinks = {}
     for player in players:
-        links = player.prefered_financial_partner.strip().split()
+        linkstmp = player.prefered_financial_partner.strip().split(';')
+        links = [link.strip() for link in linkstmp]
         for link in links: 
-            if not (link in nameList and not link==''): 
+            if not (link in nameList) and (not link==''):
                 errorSignal = 1
                 errorMessage = 'Check prefered financial partner for ' + player.name
                 return (errorSignal, errorMessage)
@@ -117,7 +118,17 @@ def index():
     
     elif request.method=='POST' and request.form['btn_identifier'] == 'clearTransactions':
         players = Players.query.order_by(Players.name).all()
-        return render_template("index.html",players=players,slateOutput='')      
+        #return render_template("index.html",players=players,slateOutput='')      
+        return redirect("/")      
+
+    elif request.method=='POST' and request.form['btn_identifier'] == 'clearPlayerList':
+        players = Players.query.order_by(Players.name).all()
+        idList = [player.id for player in players]
+        for id in idList:
+            player_to_delete = Players.query.get_or_404(id)
+            db.session.delete(player_to_delete)
+        db.session.commit()
+        return redirect("/")      
    
     else:
         # Order by date created and return everything
