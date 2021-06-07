@@ -1,9 +1,0 @@
-# What can this do
-
-* Find a set of transaction to settle Poker earnings within a group. The earnings are expressed as chips and money invested by each individual
-* Accomodate for rebuys
-* Accomodate for prefered settlement transactions
-
-
-# Test
-python main.py
