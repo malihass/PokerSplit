@@ -40,6 +40,10 @@ def initFromDB(players):
             errorSignal = 1
             errorMessage = 'Check chips remaining for ' + player.name
             return (errorSignal, errorMessage)           
+        if initialSlate[player.name]<0:
+            errorSignal = 1
+            errorMessage = 'Chips remaining for ' + player.name + ' should be positive'
+            return (errorSignal, errorMessage)           
 
     if sum([value for _, value in initialSlate.items()])==0:
         errorSignal = 1
@@ -54,6 +58,10 @@ def initFromDB(players):
         except:
             errorSignal = 1
             errorMessage = 'Check money invested for ' + player.name
+            return (errorSignal, errorMessage)           
+        if moneyInvested[player.name]<=0:
+            errorSignal = 1
+            errorMessage = 'Money invested for ' + player.name + ' should be strictly positive'
             return (errorSignal, errorMessage)           
 
     # Prefered financial partner
@@ -93,7 +101,7 @@ def index():
             db.session.commit()
             return redirect('/')
         except: 
-            return 'There was an issue'
+            return 'There was an issue adding player to database'
 
     elif request.method=='POST' and request.form['btn_identifier'] == 'playerTransactions':
         players = Players.query.order_by(Players.name).all()
