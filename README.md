@@ -1,6 +1,8 @@
 # Poker Split
 Find a set of transaction to settle Poker earnings within a group of cash-game players. The earnings are expressed as chips and money invested by each individual. Different people can have different amount of money invested in order to include buy-ins. The programm primarily settles slate between financial partners that prefer to operate together. A slate is primarily settled between financial partners (couples for example) and then settled with other players.
 
+The code can be run via a web app [PokerSplit web app](https://pokersplit.herokuapp.com)
+
 ## Running the command line code
 `python main.py`
 
