@@ -26,7 +26,7 @@
                 <th>Name</th>
                 <th>Chips remaining</th>
                 <th>Money invested (in dollars)</th>
-                <th>Prefered financial partner (separated by ;)</th>
+                <th>Preferred financial partner (separated by ;)</th>
                 <th></th>
             </tr>
             {% for player in players %}
@@ -34,7 +34,7 @@
                     <td>{{ player.name }}</td>
                     <td>{{ player.chips_remaining }}</td>
                     <td>{{ player.money_invested }}</td>
-                    <td>{{ player.prefered_financial_partner }}</td>
+                    <td>{{ player.preferred_financial_partner }}</td>
                     <td>
                         <a href="/delete/{{player.id}}">Delete</a>
                         <br>
@@ -46,22 +46,35 @@
     {% endif %}
  
     <form action="/" method="POST">
-        <input type="text" name="name", id="name", value="Player Name">
-        <br>
-        <input type="text" name="chips", id="chips", value="Chips Remaining">
-        <br>
-        <input type="text" name="money", id="money", value="Money invested (in dollars)">
-        <br>
-        <input type="text" name="partner", id="partner", value="Prefered financial partner">
         <br>
         <input type="hidden" name="btn_identifier" value="playerList" />
         <input type="submit" value="Add Player">
+        <table>
+            <tr>
+              <td align="right">Player Name:</td>
+              <td align="left"><input type="text" name="name", id="name", value=""/></td>
+            </tr>
+            <tr>
+              <td align="right">Chips Remaining:</td>
+              <td align="left"><input type="text" name="chips", id="chips", value=""/></td>
+            </tr>
+            <tr>
+              <td align="right">Money invested (in dollars):</td>
+              <td align="left"><input type="text" name="money", id="money", value=""/></td>
+            </tr>
+            <tr>
+              <td align="right">Preferred financial partner:</td>
+              <td align="left"><input type="text" name="partner", id="partner", value=""/></td>
+            </tr>
+        </table>
     </form>
     <form action="/" method="POST">
+        <br>
         <input type="hidden" name="btn_identifier" value="playerTransactions" />
         <input type="submit" value="Calculate">
     </form>
     <form action="/" method="POST">
+        <br>
         <input type="hidden" name="btn_identifier" value="clearTransactions" />
         <input type="submit" value="Clear Result">
     </form>

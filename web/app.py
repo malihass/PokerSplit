@@ -18,7 +18,7 @@ class Players(db.Model):
     name = db.Column(db.String(200), nullable=False)
     chips_remaining = db.Column(db.String(200), nullable=False)
     money_invested = db.Column(db.String(200), nullable=False)
-    prefered_financial_partner = db.Column(db.String(200), nullable=True)
+    preferred_financial_partner = db.Column(db.String(200), nullable=True)
     
     def __repr__(self):
         # what to do when we create a new element
@@ -64,23 +64,23 @@ def initFromDB(players):
             errorMessage = 'Money invested for ' + player.name + ' should be strictly positive'
             return (errorSignal, errorMessage)           
 
-    # Prefered financial partner
-    preferedLinks = {}
+    # Preferred financial partner
+    preferredLinks = {}
     for player in players:
-        linkstmp = player.prefered_financial_partner.strip().split(';')
+        linkstmp = player.preferred_financial_partner.strip().split(';')
         links = [link.strip() for link in linkstmp]
         for link in links: 
             if not (link in nameList) and (not link==''):
                 errorSignal = 1
-                errorMessage = 'Check prefered financial partner for ' + player.name
+                errorMessage = 'Check preferred financial partner for ' + player.name
                 return (errorSignal, errorMessage)
         
         if links==['']:
             links = []
-        preferedLinks[player.name] = links
+        preferredLinks[player.name] = links
     
     errorSignal = 0
-    return (errorSignal, initialSlate, moneyInvested, preferedLinks)
+    return (errorSignal, initialSlate, moneyInvested, preferredLinks)
 
 # Create index route
 @app.route('/',methods=['POST','GET'])
@@ -89,12 +89,12 @@ def index():
         player_name = request.form['name']
         player_chips_remaining = request.form['chips']
         player_money_invested = request.form['money']
-        player_prefered_financial_partner = request.form['partner']
+        player_preferred_financial_partner = request.form['partner']
         # create a new player from the input
         new_player = Players(name=player_name,
                             chips_remaining=player_chips_remaining,
                             money_invested=player_money_invested,
-                            prefered_financial_partner=player_prefered_financial_partner)
+                            preferred_financial_partner=player_preferred_financial_partner)
         try:
             # Try to add player to DB
             db.session.add(new_player)
@@ -116,7 +116,7 @@ def index():
             # Construct the split
             slate = PlayerSlate(initialSlate=init_conditions[1],
                                 moneyInvested=init_conditions[2],
-                                preferedLinks=init_conditions[3])
+                                preferredLinks=init_conditions[3])
             
             # Equilibriate scores
             slate.equilibrate()
@@ -160,7 +160,7 @@ def update(id):
         player_to_update.name = request.form['name']
         player_to_update.chips_remaining = request.form['chips']
         player_to_update.money_invested = request.form['money']
-        player_to_update.prefered_financial_partner = request.form['partner']
+        player_to_update.preferred_financial_partner = request.form['partner']
         try:
             db.session.commit()
             return redirect('/') 

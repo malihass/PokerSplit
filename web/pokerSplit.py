@@ -14,11 +14,11 @@ class Transaction:
 
 
 class PlayerSlate:
-    def __init__(self,initialSlate,moneyInvested,preferedLinks):
+    def __init__(self,initialSlate,moneyInvested,preferredLinks):
         self.initialSlate = initialSlate
         self.moneyInvested = moneyInvested
         self.currentSlate = initialSlate.copy()
-        self.preferedLinks = preferedLinks
+        self.preferredLinks = preferredLinks
         self.nPlayers = len(initialSlate)
         
         self.moneyInPot = sum([value for _, value in moneyInvested.items()])
@@ -121,12 +121,12 @@ class PlayerSlate:
             amountOwed = self.currentSlate[biggestOwed]
         return biggestOwed, amountOwed
 
-    def biggestPreferedOwed(self,ower):
-        listPreferedLinks = self.preferedLinks[ower]
-        # Find the biggest owned in the list of prefered links
+    def biggestPreferredOwed(self,ower):
+        listPreferredLinks = self.preferredLinks[ower]
+        # Find the biggest owned in the list of preferred links
         biggestOwedLink = np.nan
         biggestOwedLinkAmount = np.nan
-        for ilink, link in enumerate(listPreferedLinks):
+        for ilink, link in enumerate(listPreferredLinks):
             amountOwed = self.currentSlate[link]
             if ilink==0 or amountOwed>biggestOwedLinkAmount:
                 biggestOwedLink = link
@@ -141,8 +141,8 @@ class PlayerSlate:
             self.sort()
             # Find the biggest ower
             biggestOwer, amountFromOwer = self.biggestOwer(sorted=True)
-            # Find the prefered link first
-            biggestOwedLink, biggestOwedLinkAmount = self.biggestPreferedOwed(biggestOwer)
+            # Find the preferred link first
+            biggestOwedLink, biggestOwedLinkAmount = self.biggestPreferredOwed(biggestOwer)
             if not np.isnan(biggestOwedLinkAmount) and biggestOwedLinkAmount*amountFromOwer<0:
                 # Compute settlement
                 settlement = min(-amountFromOwer,biggestOwedLinkAmount)
