@@ -12,12 +12,11 @@ The code can be run via a web app [PokerSplit web app](https://pokersplit.heroku
 
 ## Demo command line code
 
-![demo code](demo.gif){height=125 width=375}
+<img src="demo.gif" width="375" height="125"/>
 
 ## Demo web app
 
-![demo web](web/demo.gif){height=125 width=375}
-
+<img src="web/demo.gif" width="375" height="125"/>
 
 ## Acknowledgements
 The code heavily relies on the youtube tutorial [Free code camp tutorial](https://www.youtube.com/watch?v=Z1RJmh_OqeA)
